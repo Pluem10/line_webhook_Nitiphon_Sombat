@@ -141,6 +141,120 @@ app.post("/webhook", (req, res) => {
       },
     };
 
+  };
+
+    function welcome(agent) {
+      agent.add(`Welcome to my agent!`);
+    }
+  
+    function fallback(agent) {
+      agent.add(`I didn't understand`);
+      agent.add(`I'm sorry, can you try again?`);
+    }
+  
+    function bodyMassIndex(agent) {
+      let width = agent.parameters.width;
+      let length = agent.parameters.length;
+      let area = (width * length).toFixed(2);
+
+      let result = "ขออภัย หนูไม่เข้าใจ";
+
+    if (area < 50) {
+      result = "พื้นที่เล็กจังเลย";
+    } else if (area >= 50 && area <= 100) {
+      result = "พื้นที่พอดี";
+    } else if (area > 100) {
+      result = "พื้นที่ใหญ่";
+    }
+      const flexMessage = {
+        type: "flex",
+        altText: "Flex Message",
+        contents: {
+          type: "bubble",
+          header: {
+            type: "box",
+            layout: "vertical",
+            contents: [
+              {
+                type: "text",
+                text: "Area Calculation Result",
+                weight: "bold",
+                size: "lg",
+                align: "center",
+              },
+            ],
+          },
+          hero: {
+            type: "image",
+            url: "https://inwfile.com/s-cz/fc0gzr.jpg",
+            size: "full",
+            aspectRatio: "20:13",
+            aspectMode: "cover",
+          },
+          body: {
+            type: "box",
+            layout: "vertical",
+            contents: [
+              {
+                type: "text",
+                text: "Your Area Calculation Result",
+                weight: "bold",
+                size: "md",
+                margin: "md",
+              },
+              {
+                type: "text",
+                text: "Width: " + width + " cm",
+                size: "sm",
+                margin: "sm",
+              },
+              {
+                type: "text",
+                text: "Length: " + length + " cm",
+                size: "sm",
+                margin: "sm",
+              },
+              {
+                type: "separator",
+                margin: "lg",
+              },
+              {
+                type: "text",
+                text: "Area: " + area + " cm²",
+                weight: "bold",
+                size: "xl",
+                align: "center",
+                margin: "lg",
+                color: "#00b900",
+              },
+              {
+                type: "text",
+                text: result,
+                align: "center",
+                size: "sm",
+                margin: "md",
+              },
+            ],
+          },
+          footer: {
+            type: "box",
+            layout: "vertical",
+            contents: [
+              {
+                type: "button",
+                action: {
+                  type: "uri",
+                  label: "รายละเอียดเพิ่มเติม",
+                  uri: "https://www.trueplookpanya.com/learning/detail/13431",
+                },
+                style: "primary",
+                color: "#1DB446",
+              },
+            ],
+          },
+        },
+      };
+  
     let payload = new Payload("LINE", flexMessage, { sendAsMessage: true });
     agent.add(payload);
     // agent.add(result);
@@ -151,7 +265,16 @@ app.post("/webhook", (req, res) => {
   intentMap.set("Default Fallback Intent", fallback);
   intentMap.set("BMI - custom - yes", bodyMassIndex);
   agent.handleRequest(intentMap);
+
+  let intentMap1 = new Map();
+  intentMap1.set("Default Welcome Intent", welcome);
+  intentMap1.set("Default Fallback Intent", fallback);
+  intentMap1.set("areas - custom - custom - yes", bodyMassIndex);
+  agent.handleRequest(intentMap);
 });
+
+
+
 
 app.listen(port, () => {
   console.log("Server is running at http://localhost:" + port);
