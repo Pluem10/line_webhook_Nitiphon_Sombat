@@ -184,5 +184,6 @@ app.post("/webhook", (req, res) => {
 
 app.listen(port, () => {
   console.log("Server is running at http://localhost:" + port);
-  console.log(area1,area2);
+  console.log(area1);
+  console.log(area2);
 });
