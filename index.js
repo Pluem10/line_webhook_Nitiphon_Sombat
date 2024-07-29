@@ -26,12 +26,10 @@ app.post("/webhook", (req, res) => {
   // console.log("Dialogflow Request body: " + JSON.stringify(req.body));
 
   function welcome(agent) {
-    // Added missing quotes around the string
     agent.add("Welcome to my agent!");
   }
 
   function fallback(agent) {
-    // Added missing quotes around the strings
     agent.add("I didn't understand");
     agent.add("I'm sorry, can you try again?");
   }
@@ -49,11 +47,12 @@ app.post("/webhook", (req, res) => {
       result = "คุณหุ่นดีจุงเบย";
     } else if (bmi >= 23 && bmi <= 24.9) {
       result = "คุณเริ่มจะท้วมแล้วนะ";
-    } else if (bmi >= 25.8 && bmi <= 29.9) { // Corrected & to &&
+    } else if (bmi >= 25.8 && bmi <= 29.9) {
       result = "คุณอ้วนละ ออกกำลังกายหน่อยนะ";
     } else if (bmi > 30) {
       result = "คุณอ้วนเกินไปละ หาหมอเหอะ";
     }
+
     const flexMessage = {
       type: "flex",
       altText: "Flex Message",
@@ -145,13 +144,22 @@ app.post("/webhook", (req, res) => {
 
     let payload = new Payload("LINE", flexMessage, { sendAsMessage: true });
     agent.add(payload);
-    // agent.add(result);
+  }
+
+  function calculateRectangleArea(agent) {
+    let length = agent.parameters.length;
+    let width = agent.parameters.width;
+    let area = length * width;
+
+    // Return the result as a text message
+    agent.add(`The area of the rectangle is ${area} square units.`);
   }
 
   let intentMap = new Map();
   intentMap.set("Default Welcome Intent", welcome);
   intentMap.set("Default Fallback Intent", fallback);
   intentMap.set("BMI - custom - yes", bodyMassIndex);
+  intentMap.set("Calculate Rectangle Area", calculateRectangleArea);
   agent.handleRequest(intentMap);
 });
 
