@@ -158,7 +158,7 @@ app.post("/webhook", (req, res) => {
   function calculateTriangleArea(agent) {
     let base = agent.parameters.base;
     let height = agent.parameters.height;
-    let area = (0.5 * base * height).toFixed(2);
+    let area1 = (0.5 * base * height).toFixed(2);
 
     // Return the result as a text message
     agent.add(`The area of the triangle is ${area} square units.`);
@@ -166,7 +166,7 @@ app.post("/webhook", (req, res) => {
 
   function calculateCircleArea(agent) {
     let radius = agent.parameters.radius;
-    let area = (Math.PI * radius * radius).toFixed(2);
+    let area2 = (Math.PI * radius * radius).toFixed(2);
 
     // Return the result as a text message
     agent.add(`The area of the circle is ${area} square units.`);
@@ -184,4 +184,5 @@ app.post("/webhook", (req, res) => {
 
 app.listen(port, () => {
   console.log("Server is running at http://localhost:" + port);
+  console.log(area1,area2);
 });
