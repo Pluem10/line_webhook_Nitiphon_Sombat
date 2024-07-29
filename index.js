@@ -155,11 +155,30 @@ app.post("/webhook", (req, res) => {
     agent.add(`The area of the rectangle is ${area} square units.`);
   }
 
+  function calculateTriangleArea(agent) {
+    let base = agent.parameters.base;
+    let height = agent.parameters.height;
+    let area = (0.5 * base * height).toFixed(2);
+
+    // Return the result as a text message
+    agent.add(`The area of the triangle is ${area} square units.`);
+  }
+
+  function calculateCircleArea(agent) {
+    let radius = agent.parameters.radius;
+    let area = (Math.PI * radius * radius).toFixed(2);
+
+    // Return the result as a text message
+    agent.add(`The area of the circle is ${area} square units.`);
+  }
+
   let intentMap = new Map();
   intentMap.set("Default Welcome Intent", welcome);
   intentMap.set("Default Fallback Intent", fallback);
   intentMap.set("BMI - custom - yes", bodyMassIndex);
   intentMap.set("Calculate Rectangle Area", calculateRectangleArea);
+  intentMap.set("Calculate Triangle Area", calculateTriangleArea);
+  intentMap.set("Calculate Circle Area", calculateCircleArea);
   agent.handleRequest(intentMap);
 });
 
