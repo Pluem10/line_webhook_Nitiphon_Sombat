@@ -182,9 +182,6 @@ app.post("/webhook", (req, res) => {
   agent.handleRequest(intentMap);
 });
 
-console.log(area1);
-console.log(area2);
-
 app.listen(port, () => {
   console.log("Server is running at http://localhost:" + port);
 });
